@@ -5,10 +5,10 @@ interface Props {
   size: string;
 }
 
-const Heading: React.FC<Props> = ({ title, size = "text-2xl" }) => {
+const Heading: React.FC<Props> = ({ title, size }) => {
   return (
     <>
-      <h2 className={`${size} font-bold`}>{title}</h2>
+      <h2 className={`${size} text-center font-bold`}>{title}</h2>
     </>
   );
 };
