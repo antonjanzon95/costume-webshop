@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Props {}
 
@@ -12,8 +13,14 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="absolute flex justify-between top-0 w-screen h-16 p-4 bg-slate-100">
-        <div>placeholder-ikon</div>
+      <nav className="absolute flex justify-end top-0 w-screen h-16 p-4 bg-slate-100">
+        <Image
+          src="/smaller-icon.png"
+          alt="logo"
+          width={120}
+          height={120}
+          className="absolute top-4 left-4"
+        />
         <ul
           className={`${
             isMenuOpen ? "scale-100" : "scale-0"

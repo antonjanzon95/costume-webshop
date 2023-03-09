@@ -7,8 +7,8 @@ const ProductMenu = () => {
     <>
       <nav className="mt-8 p-4">
         <Heading title="Categories" size="text-2xl" />
-        <ul className="flex justify-center gap-10 mt-4">
-          <div className="flex flex-col gap-4">
+        <ul className="flex mt-4">
+          <div className="flex flex-col gap-4 w-1/2 text-center">
             <li className="hover:underline">
               <Link href="/products">All products</Link>
             </li>
@@ -16,7 +16,7 @@ const ProductMenu = () => {
               <Link href="/products/animals">Animals</Link>
             </li>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 w-1/2 text-center">
             <li className="hover:underline">
               <Link href="/products/royalty">Royalty</Link>
             </li>

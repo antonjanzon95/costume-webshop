@@ -18,19 +18,21 @@ interface Props {
 const ProductRenderer: React.FC<Props> = ({ products }) => {
   return (
     <>
-      {products.map((product) => (
-        <div key={product.id}>
-          {/* <Image
-            src={product.image}
-            alt={product.name}
-            width={10}
-            height={10}
-          /> */}
-          <Heading title={product.name} size="text-xl" />
-          {product.description}
-          <p>Price: {product.price}</p>
-        </div>
-      ))}
+      <div className="mt-6 flex flex-col gap-4">
+        {products.map((product) => (
+          <article key={product.id}>
+            {/* <Image
+              src={product.image}
+              alt={product.name}
+              width={10}
+              height={10}
+            /> */}
+            <Heading title={product.name} size="text-xl" />
+            <p>{product.description}</p>
+            <p>Price: {product.price} php</p>
+          </article>
+        ))}
+      </div>
     </>
   );
 };
