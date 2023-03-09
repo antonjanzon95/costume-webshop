@@ -30,8 +30,8 @@ const Products: React.FC = () => {
   return (
     <>
       <Layout>
-        <Heading title="All products:" size="text-4xl" />
         <ProductMenu />
+        <Heading title="All products:" size="text-3xl" />
         {products.length > 0 ? (
           <ProductRenderer products={products} />
         ) : (

@@ -38,7 +38,7 @@ const ProductCategory: React.FC = () => {
           title={`${
             category.charAt(0).toUpperCase() + category.slice(1)
           } costumes:`}
-          size="text-2xl"
+          size="text-3xl"
         />
         <ProductRenderer products={products} />
       </Layout>
