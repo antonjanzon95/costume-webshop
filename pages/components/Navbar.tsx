@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 
 interface Props {}
 
@@ -43,7 +44,9 @@ const Navbar = () => {
           </li>
         </ul>
         <div className="flex gap-6">
-          <button>cart</button>
+          <button>
+            <AiOutlineShoppingCart size={36} />
+          </button>
           <button
             onClick={toggleMenu}
             className="w-10 h-8 flex flex-col justify-between"
