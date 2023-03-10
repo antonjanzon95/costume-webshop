@@ -5,7 +5,7 @@ import ProductMenu from "../components/ProductMenu";
 import ProductRenderer from "../components/ProductRenderer";
 
 interface Product {
-  id: number;
+  id: string;
   category: string;
   name: string;
   price: number;
@@ -21,7 +21,6 @@ const Products: React.FC = () => {
       const response = await fetch("/api/products/");
       const data = await response.json();
       console.log(data);
-      console.log("test");
       setProducts(data);
     };
     fetchProducts();

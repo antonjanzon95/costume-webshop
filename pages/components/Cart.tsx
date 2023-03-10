@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Heading from "./Heading";
+import { cart } from "../api/cart/index";
 
 interface Product {
   id: string;
   category: string;
   name: string;
+  amount: number;
   price: number;
   description: string;
 }
@@ -14,27 +16,22 @@ interface Props {
 }
 
 const Cart: React.FC<Props> = ({ products }) => {
-  const [productAmounts, setProductAmounts] = useState<{
-    [key: string]: number;
-  }>({});
   const [totalPrice, setTotalPrice] = useState(0);
 
   const addProduct = (product: Product) => {
-    setProductAmounts((prevAmounts) => ({
-      ...prevAmounts,
-      [product.id]: (prevAmounts[product.id] || 0) + 1,
-    }));
+    product.amount += 1;
     setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
   };
 
+  // TODO
   const removeProduct = (product: Product) => {
-    const currentAmount = productAmounts[product.id] || 0;
-    if (currentAmount > 0) {
-      setProductAmounts((prevAmounts) => ({
-        ...prevAmounts,
-        [product.id]: currentAmount - 1,
-      }));
+    if (product.amount > 1) {
+      product.amount -= 1;
       setTotalPrice((prevTotalPrice) => prevTotalPrice - product.price);
+    } else if (product.amount === 1) {
+      const productToRemove = cart.find(
+        (cartProduct) => cartProduct.id === product.id
+      );
     }
   };
 
@@ -52,14 +49,14 @@ const Cart: React.FC<Props> = ({ products }) => {
               >
                 -
               </button>
-              {productAmounts[product.id] || 0}
+              {product.amount || 0}
               <button
                 onClick={() => addProduct(product)}
                 className=" w-8 h-8 outline flex justify-center items-center"
               >
                 +
               </button>
-              {product.price * (productAmounts[product.id] || 0)}
+              {product.price * (product.amount || 0)}
             </div>
           </article>
         ))}

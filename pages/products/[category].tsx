@@ -6,7 +6,7 @@ import ProductMenu from "../components/ProductMenu";
 import ProductRenderer from "../components/ProductRenderer";
 
 interface Product {
-  id: number;
+  id: string;
   category: string;
   name: string;
   price: number;

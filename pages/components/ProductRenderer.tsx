@@ -4,7 +4,7 @@ import Heading from "./Heading";
 import Image from "next/image";
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
   // image: string;
@@ -16,6 +16,18 @@ interface Props {
 }
 
 const ProductRenderer: React.FC<Props> = ({ products }) => {
+  const addToCart = async (product: Product) => {
+    const response = await fetch("/api/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ product: product }),
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
     <>
       <div className="mt-6 flex flex-col gap-4">
@@ -30,6 +42,9 @@ const ProductRenderer: React.FC<Props> = ({ products }) => {
             <Heading title={product.name} size="text-xl" />
             <p>{product.description}</p>
             <p>Price: {product.price} php</p>
+            <button className="outline p-2" onClick={() => addToCart(product)}>
+              Add to cart
+            </button>
           </article>
         ))}
       </div>
