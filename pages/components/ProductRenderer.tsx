@@ -5,6 +5,7 @@ import Image from "next/image";
 
 interface Product {
   id: string;
+  category: string;
   name: string;
   price: number;
   // image: string;
@@ -17,6 +18,7 @@ interface Props {
 
 const ProductRenderer: React.FC<Props> = ({ products }) => {
   const addToCart = async (product: Product) => {
+    console.log(product);
     const response = await fetch("/api/cart", {
       method: "POST",
       headers: {
@@ -41,6 +43,7 @@ const ProductRenderer: React.FC<Props> = ({ products }) => {
             /> */}
             <Heading title={product.name} size="text-xl" />
             <p>{product.description}</p>
+            {product.category}
             <p>Price: {product.price} php</p>
             <button className="outline p-2" onClick={() => addToCart(product)}>
               Add to cart

@@ -1,67 +1,86 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Heading from "./Heading";
-import { cart } from "../api/cart/index";
 
 interface Product {
   id: string;
   category: string;
   name: string;
-  amount: number;
+  amount?: number;
   price: number;
   description: string;
 }
 
-interface Props {
-  products: Product[];
-}
+const Cart = () => {
+  const [products, setProducts] = useState<Product[]>([]);
 
-const Cart: React.FC<Props> = ({ products }) => {
-  const [totalPrice, setTotalPrice] = useState(0);
+  useEffect(() => {
+    const fetchCart = async () => {
+      const response = await fetch("/api/cart");
+      const data = await response.json();
+      setProducts(data);
+    };
+    fetchCart();
+  }, [products]);
 
-  const addProduct = (product: Product) => {
-    product.amount += 1;
-    setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
+  const addProduct = async (product: Product) => {
+    const response = await fetch("/api/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ product: product }),
+    });
+    const data = await response.json();
+    console.log(data);
   };
 
-  // TODO
-  const removeProduct = (product: Product) => {
-    if (product.amount > 1) {
-      product.amount -= 1;
-      setTotalPrice((prevTotalPrice) => prevTotalPrice - product.price);
-    } else if (product.amount === 1) {
-      const productToRemove = cart.find(
-        (cartProduct) => cartProduct.id === product.id
-      );
-    }
+  const removeProduct = async (product: Product) => {
+    const response = await fetch("/api/cart", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId: product.id }),
+    });
+    const data = await response.json();
+    console.log(data);
   };
 
   return (
     <>
       <div className="absolute top-40">
-        {products.map((product) => (
-          <article key={product.id} className="flex justify-between w-screen">
-            <Heading title={product.name} size="text-xl" />
+        {products.length > 0 ? (
+          products.map((product) => (
+            <article key={product.id} className="flex justify-between w-screen">
+              <Heading title={product.name} size="text-xl" />
 
-            <div className="flex gap-4">
-              <button
-                onClick={() => removeProduct(product)}
-                className=" w-8 h-8 outline flex justify-center items-center"
-              >
-                -
-              </button>
-              {product.amount || 0}
-              <button
-                onClick={() => addProduct(product)}
-                className=" w-8 h-8 outline flex justify-center items-center"
-              >
-                +
-              </button>
-              {product.price * (product.amount || 0)}
-            </div>
-          </article>
-        ))}
+              <div className="flex gap-4">
+                <button
+                  onClick={() => removeProduct(product)}
+                  className=" w-8 h-8 outline flex justify-center items-center"
+                >
+                  -
+                </button>
+                {product.amount || 0}
+                <button
+                  onClick={() => addProduct(product)}
+                  className=" w-8 h-8 outline flex justify-center items-center"
+                >
+                  +
+                </button>
+                {product.price * (product.amount || 0)}
+              </div>
+            </article>
+          ))
+        ) : (
+          <p>Your cart is empty</p>
+        )}
         <div className="text-xl font-bold flex justify-end p-6">
-          Total: {totalPrice}
+          Total:{" "}
+          {products.reduce(
+            (acc, product) => acc + product.price * (product.amount || 0),
+            0
+          )}
         </div>
       </div>
     </>
