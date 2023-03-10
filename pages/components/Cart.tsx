@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Heading from "./Heading";
 
 interface Product {
@@ -6,7 +6,6 @@ interface Product {
   category: string;
   name: string;
   price: number;
-  // image: string;
   description: string;
 }
 
@@ -15,14 +14,28 @@ interface Props {
 }
 
 const Cart: React.FC<Props> = ({ products }) => {
-  const [productAmount, setProductAmount] = useState(0);
+  const [productAmounts, setProductAmounts] = useState<{
+    [key: string]: number;
+  }>({});
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  const addProduct = () => {
-    setProductAmount(productAmount + 1);
+  const addProduct = (product: Product) => {
+    setProductAmounts((prevAmounts) => ({
+      ...prevAmounts,
+      [product.id]: (prevAmounts[product.id] || 0) + 1,
+    }));
+    setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price);
   };
 
-  const removeProduct = () => {
-    setProductAmount(productAmount < 1 ? 0 : productAmount - 1);
+  const removeProduct = (product: Product) => {
+    const currentAmount = productAmounts[product.id] || 0;
+    if (currentAmount > 0) {
+      setProductAmounts((prevAmounts) => ({
+        ...prevAmounts,
+        [product.id]: currentAmount - 1,
+      }));
+      setTotalPrice((prevTotalPrice) => prevTotalPrice - product.price);
+    }
   };
 
   return (
@@ -33,23 +46,26 @@ const Cart: React.FC<Props> = ({ products }) => {
             <Heading title={product.name} size="text-xl" />
 
             <div className="flex gap-4">
-              {product.price * productAmount}
               <button
-                onClick={removeProduct}
+                onClick={() => removeProduct(product)}
                 className=" w-8 h-8 outline flex justify-center items-center"
               >
                 -
               </button>
-              {productAmount}
+              {productAmounts[product.id] || 0}
               <button
-                onClick={addProduct}
+                onClick={() => addProduct(product)}
                 className=" w-8 h-8 outline flex justify-center items-center"
               >
                 +
               </button>
+              {product.price * (productAmounts[product.id] || 0)}
             </div>
           </article>
         ))}
+        <div className="text-xl font-bold flex justify-end p-6">
+          Total: {totalPrice}
+        </div>
       </div>
     </>
   );
