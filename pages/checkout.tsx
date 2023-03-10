@@ -4,7 +4,7 @@ import Layout from "./components/Layout";
 const Checkout = () => {
   return (
     <>
-      <Layout></Layout>
+      <Layout>Hejsan</Layout>
     </>
   );
 };

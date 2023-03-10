@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import Cart from "./Cart";
 
 interface Props {}
 
 const Navbar = () => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen);
+  };
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      const response = await fetch("/api/cart");
+      const data = await response.json();
+      setCartItems(data);
+    };
+    fetchCart();
+  }, []);
 
   return (
     <>
@@ -44,7 +60,7 @@ const Navbar = () => {
           </li>
         </ul>
         <div className="flex gap-6">
-          <button>
+          <button onClick={toggleCart}>
             <AiOutlineShoppingCart size={36} />
           </button>
           <button
@@ -67,6 +83,7 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
+      {isCartOpen && <Cart products={cartItems} />}
     </>
   );
 };
