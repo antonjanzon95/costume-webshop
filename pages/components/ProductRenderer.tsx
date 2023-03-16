@@ -18,7 +18,6 @@ interface Props {
 
 const ProductRenderer: React.FC<Props> = ({ products }) => {
   const addToCart = async (product: Product) => {
-    console.log(product);
     const response = await fetch("/api/cart", {
       method: "POST",
       headers: {
@@ -27,7 +26,6 @@ const ProductRenderer: React.FC<Props> = ({ products }) => {
       body: JSON.stringify({ product: product }),
     });
     const data = await response.json();
-    console.log(data);
   };
 
   return (

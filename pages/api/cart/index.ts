@@ -41,8 +41,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json(cart);
   } else if (method === "PUT") {
     const { productId } = body || {};
-    console.log(productId);
-    cart.map((product) => console.log(product.id));
     const cartProduct = cart.find((product) => product.id === productId);
     const indexProduct = cart.findIndex((product) => product.id === productId);
     if (cartProduct != null) {

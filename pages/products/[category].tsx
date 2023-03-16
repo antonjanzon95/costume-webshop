@@ -24,7 +24,6 @@ const ProductCategory: React.FC = () => {
     const fetchProducts = async () => {
       const response = await fetch(`/api/products?category=${category}`);
       const data = await response.json();
-      console.log(data);
       setProducts(data);
     };
     fetchProducts();

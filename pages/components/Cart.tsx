@@ -31,7 +31,6 @@ const Cart = () => {
       body: JSON.stringify({ product: product }),
     });
     const data = await response.json();
-    console.log(data);
   };
 
   const removeProduct = async (product: Product) => {
@@ -43,7 +42,6 @@ const Cart = () => {
       body: JSON.stringify({ productId: product.id }),
     });
     const data = await response.json();
-    console.log(data);
   };
 
   return (
