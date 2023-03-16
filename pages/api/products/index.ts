@@ -109,11 +109,16 @@ export default async function handler(
         .status(500)
         .json({ message: "An error occurred while saving the product" });
     }
-  }
-  // else if (req.method === "GET") {
-  //   res.status(200).json(pr)
-  // }
-  else {
+  } else if (req.method === "GET") {
+    try {
+      const products = await Product.find({});
+
+      res.status(201).json(products);
+    } catch (err) {
+      console.error("error fetching products: ", err);
+      res.status(500).json({ message: "error fetching products" });
+    }
+  } else {
     res.setHeader("Allow", ["POST"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }

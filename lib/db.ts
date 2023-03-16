@@ -6,7 +6,6 @@ const connection: { isConnected: number | undefined } = {
 
 async function dbConnect() {
   if (connection.isConnected) {
-    console.log("Database connected!");
     return;
   }
 

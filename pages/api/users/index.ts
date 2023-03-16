@@ -31,6 +31,25 @@ export default async function handler(
       console.error("error when saving user: ", err);
       res.status(500).json({ message: "Error when saving user." });
     }
+  } else if (req.method === "GET") {
+    const { id } = req.query;
+
+    if (!id) {
+      return res.status(400).json({ message: "No user ID found" });
+    }
+
+    try {
+      const user = await User.findOne({ id });
+
+      if (!user) {
+        return res.status(400).json({ message: "User not found" });
+      }
+
+      res.status(200).json(user);
+    } catch (err) {
+      console.error("Error fetching user: ", err);
+      res.status(500).json({ message: "Error fetching user from database" });
+    }
   } else {
     res.setHeader("Allow", ["POST"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
