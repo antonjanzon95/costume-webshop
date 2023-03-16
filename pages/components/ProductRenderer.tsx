@@ -9,7 +9,8 @@ interface Product {
   name: string;
   price: number;
   // image: string;
-  description: string;
+  color: string;
+  age: string;
 }
 
 interface Props {
@@ -30,9 +31,12 @@ const ProductRenderer: React.FC<Props> = ({ products }) => {
 
   return (
     <>
-      <div className="mt-6 flex flex-col gap-4">
+      <div className="mt-6 flex flex-col gap-4 items-center">
         {products.map((product) => (
-          <article key={product.id}>
+          <article
+            key={product.id}
+            className="w-[300px] bg-slate-50 shadow py-8 px-4 flex flex-col items-center justify-center gap-4"
+          >
             {/* <Image
               src={product.image}
               alt={product.name}
@@ -40,12 +44,17 @@ const ProductRenderer: React.FC<Props> = ({ products }) => {
               height={10}
             /> */}
             <Heading title={product.name} size="text-xl" />
-            <p>{product.description}</p>
-            {product.category}
-            <p>Price: {product.price} php</p>
-            <button className="outline p-2" onClick={() => addToCart(product)}>
-              Add to cart
-            </button>
+            <p>Color: {product.color}</p>
+            <p>For ages: {product.age}</p>
+            <div className="flex justify-center items-center gap-4">
+              <p>Price: {product.price}</p>
+              <button
+                className="bg-white border-2 border-black rounded hover:bg-slate-900 hover:text-slate-50 p-2"
+                onClick={() => addToCart(product)}
+              >
+                Add to cart
+              </button>
+            </div>
           </article>
         ))}
       </div>

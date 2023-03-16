@@ -3,11 +3,9 @@ import Heading from "./Heading";
 
 interface Product {
   id: string;
-  category: string;
   name: string;
   amount?: number;
   price: number;
-  description: string;
 }
 
 const Cart = () => {

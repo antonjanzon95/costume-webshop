@@ -85,15 +85,16 @@ export default async function handler(
   await dbConnect();
 
   if (req.method === "POST") {
-    const { name, description, id, price, category } = req.body;
+    const { name, id, price, category, color, age } = req.body;
 
-    if (!id || !name || !description || !price || !category) {
+    if (!id || !name || !price || !category || !color || !age) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const newProduct = new Product({
       name,
-      description,
+      color,
+      age,
       id,
       price,
       category,

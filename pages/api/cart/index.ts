@@ -2,12 +2,10 @@ import { NextApiResponse, NextApiRequest } from "next";
 
 interface Product {
   id: string;
-  category: string;
   name: string;
   price: number;
   amount: number;
   // image: string;
-  description: string;
 }
 
 const cart: Product[] = [];
@@ -20,13 +18,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json(cart);
   } else if (method === "POST") {
     const { product } = body || {};
-    const { name, price, id, description, category } = product || {};
+    const { name, price, id } = product || {};
     const productToAdd: Product = {
       name: name,
       price: price,
       id: id,
-      description: description,
-      category: category,
       amount: 1,
     };
     const productExist = cart.find((product) => product.id === productToAdd.id);
