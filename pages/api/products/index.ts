@@ -110,8 +110,22 @@ export default async function handler(
         .json({ message: "An error occurred while saving the product" });
     }
   } else if (req.method === "GET") {
+    const { category } = req.query;
+
     try {
-      const products = await Product.find({});
+      let products;
+
+      if (category) {
+        products = await Product.find({ category });
+
+        if (products.length === 0) {
+          return res
+            .status(404)
+            .json({ message: `No products of ${category} category.` });
+        }
+      } else {
+        products = await Product.find({});
+      }
 
       res.status(201).json(products);
     } catch (err) {
@@ -119,7 +133,7 @@ export default async function handler(
       res.status(500).json({ message: "error fetching products" });
     }
   } else {
-    res.setHeader("Allow", ["POST"]);
+    res.setHeader("Allow", ["POST", "GET"]);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
